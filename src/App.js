@@ -16,8 +16,8 @@ class App extends React.Component {
           <div>
             <AppBar position="static" color="primary">
               <Toolbar>
-                <Typography variant="h6" color="inherit">
-                  ToDo App
+                <Typography variant="h5" color="inherit">
+                  TODO APP
                 </Typography>
               </Toolbar>
             </AppBar>

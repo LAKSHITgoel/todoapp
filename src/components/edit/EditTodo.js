@@ -17,6 +17,7 @@ class EditTodo extends React.Component {
     };
   }
 
+  // onsubmit edit the current todo
   onSubmit = e => {
     e.preventDefault();
     let data = {
@@ -24,19 +25,23 @@ class EditTodo extends React.Component {
       title: this.state.title,
       desc: this.state.desc
     };
+    //fire edit todo action
     this.props.editTodo(data);
     this.props.onClose();
     this.setState({ title: "", desc: "" });
   };
 
+  //closes the currently open edit popup
   handleClose = () => {
     this.props.onClose();
   };
 
+  //handles the onchange event from input boxes
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  //==============================rendering the component=============================
   render() {
     return (
       <Dialog
@@ -44,10 +49,10 @@ class EditTodo extends React.Component {
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
       >
+        {/* ======================== form for editing the todo ============================ */}
         <form onSubmit={this.onSubmit}>
           <DialogTitle id="form-dialog-title">Edit</DialogTitle>
           <DialogContent>
-            <p>{this.props.id}</p>
             <TextField
               required
               onChange={this.onChange}
@@ -84,11 +89,7 @@ class EditTodo extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  todo: state.todo.todo
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { editTodo }
 )(EditTodo);

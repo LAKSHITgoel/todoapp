@@ -1,14 +1,15 @@
 import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../types";
 export const addTodo = ({ title, id, desc, reminder }) => dispatch => {
+  // +new Date() will return the time in milliseconds
   let currentTime = +new Date();
   let reminderTime = +new Date(reminder);
   let time = reminderTime - currentTime;
-  console.log("reminderTime", reminderTime);
-  console.log("currentTime", currentTime);
-  console.log("time", time);
+
+  //set time for browser alert for the reminder
   setTimeout(() => {
     alert(`reminder for ${title}`);
   }, time);
+
   let data = {
     id,
     title,
@@ -30,7 +31,6 @@ export const deleteTodo = id => dispatch => {
 
 export const editTodo = ({ id, title, desc }) => dispatch => {
   let data = { id, title, desc };
-  console.log("edit action",data)
   dispatch({
     type: EDIT_TODO,
     payload: data

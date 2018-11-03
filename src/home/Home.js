@@ -16,6 +16,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Typography from "@material-ui/core/Typography";
 import EditTodo from "../components/edit/EditTodo";
 
+//===============================Overiding Styles=======================================
 const styles = theme => ({
   root: {
     margin: "50px"
@@ -34,6 +35,7 @@ const styles = theme => ({
   }
 });
 
+//=================================Home component========================================
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -44,50 +46,55 @@ class Home extends Component {
       reminder: "",
       editModal: false
     };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  async onSubmit(e) {
+  //=================================================================================
+  onSubmit = async e => {
     e.preventDefault();
-    console.log("submit btn");
+    //get a unique ID string for each newly added todo in the store
     let id = await getUniqueId();
-    console.log(id);
     let obj = {
-      id: id,
+      id,
       title: this.state.title,
       desc: this.state.desc,
       reminder: this.state.reminder
     };
-    console.log("reminder", this.state.reminder);
-    this.props.addTodo(obj);
-    this.setState({ title: "", desc: "", reminder: "" });
-  }
+    //firing addTodo action to the Redux Store
+    await this.props.addTodo(obj);
+    await this.setState({ title: "", desc: "", reminder: "" });
+  };
 
+  //firing delete todo action to store
   delete = (e, id) => {
     this.props.deleteTodo(id);
   };
 
+  //open edit popup on click on edit button
   openEditModal = (e, id) => {
     this.setState({ editModal: true, id });
   };
 
+  //closes edit popup
   closeEditModal = e => {
     this.setState({ editModal: false });
   };
 
-  onChange(e) {
+  //handle the onchnage event on input boxes
+  onChange = async e => {
     console.log(e);
-    this.setState({ [e.target.name]: e.target.value });
-  }
+    await this.setState({ [e.target.name]: e.target.value });
+  };
+
+  //================================rendering=========================================
+
   render() {
     const { classes, todo } = this.props;
-    console.log("todo", todo);
 
     return (
       <div className={classes.root}>
         <Typography variant="h3">Add Todos</Typography>
         <br />
+        {/*====================== form for adding todos =======================*/}
         <form onSubmit={this.onSubmit}>
           <TextField
             className={classes.todo}
@@ -138,6 +145,7 @@ class Home extends Component {
           onClose={this.closeEditModal}
           aria-labelledby="edit-dialog-"
         />
+        {/* ============== List for rendring todos ========================== */}
         <List className={classes.list}>
           {todo && todo.length > 0 ? (
             todo.map(obj => (
@@ -172,6 +180,7 @@ class Home extends Component {
   }
 }
 
+//passing todo state in redux store to this component as props
 const mapStateToProps = state => ({
   todo: state.todo.todo
 });
